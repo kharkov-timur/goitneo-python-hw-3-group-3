@@ -78,6 +78,23 @@ def close():
     return "Good bye!"
 
 
+def show_info():
+    info_message = (
+        "Available commands:\n"
+        "- add [name] [phone] - Add a new contact with a name and phone number.\n"
+        "- change [name] [new phone] - Change a contact's phone number.\n"
+        "- phone [name] - Show a contact's phone number.\n"
+        "- all - Show all saved contacts.\n"
+        "- add-birthday [name] [birthday] - Add a birthday to a contact (format DD.MM.YYYY).\n"
+        "- show-birthday [name] - Show a contact's birthday.\n"
+        "- birthdays - Show birthdays that occur within the next week.\n"
+        "- hello - Greeting from the assistant.\n"
+        "- close or exit - Close the program.\n"
+        "- info - Show available commands."
+    )
+    return info_message
+
+
 COMMANDS = {
     "add": add_contact,
     "change": change_contact,
@@ -89,6 +106,7 @@ COMMANDS = {
     "hello": hello,
     "close": close,
     "exit": close,
+    "info": show_info,
 }
 
 
@@ -100,8 +118,13 @@ def main():
             continue
         parts = command_line.split()
         cmd, args = parts[0], parts[1:]
+
         if cmd in COMMANDS:
-            result = COMMANDS[cmd](book, *args)
+            if cmd == "info":
+                result = COMMANDS[cmd]()
+            else:
+                result = COMMANDS[cmd](book, *args)
+
             if result == "Good bye!":
                 print(result)
                 break
